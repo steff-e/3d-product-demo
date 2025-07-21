@@ -229,6 +229,35 @@ const GltfViewer = ({ modelPath }) => {
           minHeight: 200,
         }}
       >
+        {/* AR Button */}
+        <a
+          href={modelPath}
+          rel="noopener noreferrer"
+          target="_blank"
+          style={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 10,
+            background: 'rgba(255,255,255,0.95)',
+            border: '1px solid #ddd',
+            borderRadius: 8,
+            padding: '0.4rem 0.7rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+            textDecoration: 'none',
+            color: '#222',
+            fontWeight: 500,
+            fontSize: 15,
+            transition: 'box-shadow 0.2s',
+          }}
+          title="View in AR"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span style={{ marginLeft: 4 }}>View in AR</span>
+        </a>
         {loading && (
           <div style={{
             position: 'absolute',
