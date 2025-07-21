@@ -6,8 +6,7 @@
         "price": 499.99,
         "category": "Furniture",
         "description": "A tall bookshelf made of solid wood.",
-        "geometrySrc": "src/assets/models/bookshelf.gltf",
-        "materialSrc": "src/assets/materials/BookshelfMaterial_baseColor.png"
+        "modelSrc": "/assets/bookshelf/scene.gltf"
         },
         {
         "id": 2,
@@ -15,17 +14,15 @@
         "price": 4.99,
         "category": "Furniture",
         "description": "A sturdy moving box for all your packing needs.",
-        "geometryPath": "src/MovingBox.glb",
-        "meshPath": "src/MovingBox.obj"
+        "modelSrc": "/assets/moving_box/scene.gltf"
         },
         {
         "id": 3,
-        "name": "Storage Bin",
+        "name": "Wire Rack",
         "price": 49.99,
         "category": "Furniture",
-        "description": "A durable storage bin for organizing your belongings.",
-        "geometryPath": "src/StorageBin.glb",
-        "meshPath": "src/StorageBin.obj"
+        "description": "A durable wire rack for organizing your belongings.",
+        "modelSrc": "/assets/wire_rack/scene.gltf"
         }
     ]
 }
