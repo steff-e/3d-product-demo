@@ -11,6 +11,7 @@ const GltfViewer = ({ modelPath }) => {
 
   // Track if view is changed from default
   const [isChanged, setIsChanged] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Default camera position (looking down and to the side)
   const defaultCameraPos = { x: -1.5, y: 2.3, z: 2.1 };
@@ -125,6 +126,7 @@ const GltfViewer = ({ modelPath }) => {
     loader.load(
       modelPath,
       (gltf) => {
+        setLoading(false);
         // Center the model and place it above the grid
         const box = new THREE.Box3().setFromObject(gltf.scene);
         const center = new THREE.Vector3();
@@ -164,9 +166,10 @@ const GltfViewer = ({ modelPath }) => {
         console.log(gltf);
       },
       (xhr) => {
-        console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+        setLoading(true);
       },
       (error) => {
+        setLoading(false);
         console.error('An error occurred loading the model:', error);
       }
     );
@@ -226,6 +229,35 @@ const GltfViewer = ({ modelPath }) => {
           minHeight: 200,
         }}
       >
+        {loading && (
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(255,255,255,0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2,
+          }}>
+            <div style={{
+              width: 48,
+              height: 48,
+              border: '5px solid #ccc',
+              borderTop: '5px solid #646cff',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+            }} />
+            <style>{`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
+          </div>
+        )}
         <div
           style={{
             position: 'absolute',
@@ -238,6 +270,7 @@ const GltfViewer = ({ modelPath }) => {
             padding: '1rem 0',
             background: 'rgba(255,255,255,0.7)',
             borderTop: '1px solid #eee',
+            zIndex: 1,
           }}
         >
           <button
