@@ -319,10 +319,10 @@ function ARButton({ modelPath }) {
   if (typeof window !== 'undefined') {
     const ua = window.navigator.userAgent;
     if (/iPad|iPhone|iPod/.test(ua)) {
-      href = usdzPath;
+      href = usdzPath + (usdzPath.includes('?') ? '&' : '?') + 'allowsContentScaling=0';
       target = undefined;
     } else if (/Android/.test(ua)) {
-      href = `https://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(glbPath)}&mode=ar_preferred`;
+      href = `https://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(glbPath)}&mode=ar_preferred&resizable=false`;
       target = undefined;
     }
   }
