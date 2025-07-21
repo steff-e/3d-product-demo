@@ -206,12 +206,14 @@ const GltfViewer = ({ modelPath }) => {
   }, [modelPath]);
 
   return (
-    <div style={{ width: 'fit-content', margin: '2rem auto', position: 'relative' }}>
+    <div style={{ width: '100%', maxWidth: 650, margin: '2rem auto', position: 'relative' }}>
       <div
         ref={mountRef}
         style={{
-          width: '600px',
-          height: '400px',
+          width: '100%',
+          maxWidth: 600,
+          height: 'auto',
+          aspectRatio: '3/2',
           border: '2px solid #333',
           borderRadius: '12px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -221,6 +223,7 @@ const GltfViewer = ({ modelPath }) => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
+          minHeight: 200,
         }}
       >
         <div

@@ -1,17 +1,13 @@
-import { useState } from 'react'
-import './App.css'
-import GltfViewer from './components/GltfViewer.jsx';
+
+import Layout from './components/Layout';
+import ProductCards from './components/ProductCards';
 
 function App() {
-
   return (
-    <>
-      <div className="card">
-      </div>
-      <GltfViewer modelPath="/assets/bookshelf/scene.gltf" />
-
-    </>
-  )
+    <Layout>
+      <ProductCards />
+    </Layout>
+  );
 }
 
-export default App
+export default App;

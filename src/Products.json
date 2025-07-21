@@ -14,7 +14,7 @@
         "price": 4.99,
         "category": "Furniture",
         "description": "A sturdy moving box for all your packing needs.",
-        "modelSrc": "/assets/moving_box/scene.gltf"
+        "modelSrc": "/assets/cardboard_box/scene.gltf"
         },
         {
         "id": 3,
