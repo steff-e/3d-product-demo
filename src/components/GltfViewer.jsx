@@ -229,35 +229,7 @@ const GltfViewer = ({ modelPath }) => {
           minHeight: 200,
         }}
       >
-        {/* AR Button */}
-        <a
-          href={modelPath}
-          rel="noopener noreferrer"
-          target="_blank"
-          style={{
-            position: 'absolute',
-            top: 16,
-            right: 16,
-            zIndex: 10,
-            background: 'rgba(255,255,255,0.95)',
-            border: '1px solid #ddd',
-            borderRadius: 8,
-            padding: '0.4rem 0.7rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
-            textDecoration: 'none',
-            color: '#222',
-            fontWeight: 500,
-            fontSize: 15,
-            transition: 'box-shadow 0.2s',
-          }}
-          title="View in AR"
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
-          <span style={{ marginLeft: 4 }}>View in AR</span>
-        </a>
+        <ARButton modelPath={modelPath} />
         {loading && (
           <div style={{
             position: 'absolute',
@@ -329,3 +301,63 @@ const GltfViewer = ({ modelPath }) => {
 };
 
 export default GltfViewer;
+
+function ARButton({ modelPath }) {
+  // Derive .usdz and .glb paths from modelPath
+  let usdzPath = modelPath;
+  let glbPath = modelPath;
+  if (modelPath.endsWith('.gltf')) {
+    usdzPath = modelPath.replace(/\.gltf$/, '.usdz');
+    glbPath = modelPath.replace(/\.gltf$/, '.glb');
+  } else if (modelPath.endsWith('.glb')) {
+    usdzPath = modelPath.replace(/\.glb$/, '.usdz');
+    glbPath = modelPath;
+  }
+
+  let href = modelPath;
+  let target = '_blank';
+  if (typeof window !== 'undefined') {
+    const ua = window.navigator.userAgent;
+    if (/iPad|iPhone|iPod/.test(ua)) {
+      href = usdzPath;
+      target = undefined;
+    } else if (/Android/.test(ua)) {
+      href = `https://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(glbPath)}&mode=ar_preferred`;
+      target = undefined;
+    }
+  }
+
+  return (
+    <a
+      href={href}
+      rel="noopener noreferrer"
+      {...(target ? { target } : {})}
+      style={arButtonStyle}
+      title="View in AR"
+      aria-label="View in AR"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span style={{ marginLeft: 4 }}>View in AR</span>
+    </a>
+  );
+}
+
+const arButtonStyle = {
+  position: 'absolute',
+  top: 16,
+  right: 16,
+  zIndex: 10,
+  background: 'rgba(255,255,255,0.95)',
+  border: '1px solid #ddd',
+  borderRadius: 8,
+  padding: '0.4rem 0.7rem',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+  boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+  textDecoration: 'none',
+  color: '#222',
+  fontWeight: 500,
+  fontSize: 15,
+  transition: 'box-shadow 0.2s',
+};
