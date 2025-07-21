@@ -1,0 +1,31 @@
+{
+    "products": [
+        {
+        "id": 1,
+        "name": "Bookshelf",
+        "price": 499.99,
+        "category": "Furniture",
+        "description": "A tall bookshelf made of solid wood.",
+        "geometrySrc": "src/assets/models/bookshelf.gltf",
+        "materialSrc": "src/assets/materials/BookshelfMaterial_baseColor.png"
+        },
+        {
+        "id": 2,
+        "name": "Moving Box",
+        "price": 4.99,
+        "category": "Furniture",
+        "description": "A sturdy moving box for all your packing needs.",
+        "geometryPath": "src/MovingBox.glb",
+        "meshPath": "src/MovingBox.obj"
+        },
+        {
+        "id": 3,
+        "name": "Storage Bin",
+        "price": 49.99,
+        "category": "Furniture",
+        "description": "A durable storage bin for organizing your belongings.",
+        "geometryPath": "src/StorageBin.glb",
+        "meshPath": "src/StorageBin.obj"
+        }
+    ]
+}
