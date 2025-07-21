@@ -5,7 +5,7 @@ const ProductCards = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('/src/Products.json')
+    fetch('Products.json')
       .then((res) => res.json())
       .then((data) => setProducts(data.products || []))
       .catch((err) => console.error('Failed to load products:', err));
