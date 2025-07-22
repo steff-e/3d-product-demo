@@ -67,14 +67,19 @@ const GltfViewer = ({ modelPath }) => {
 
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 700;
+    const width = Math.min(window.innerWidth * 0.98, 600);
+    const height = width * 2 / 3;
+
     // Scene, Camera, Renderer Setup
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
-    camera.position.set(defaultCameraPos.x, defaultCameraPos.y, defaultCameraPos.z);
+    // Wider FOV for mobile
+    const camera = new THREE.PerspectiveCamera(isMobile ? 85 : 75, width / height, 0.1, 1000);
+    camera.position.set(defaultCameraPos.x, defaultCameraPos.y, isMobile ? 3.2 : defaultCameraPos.z);
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(600, 400);
+    renderer.setSize(width, height);
     renderer.setClearColor(0xffffff, 1); // Set background to white
     mountRef.current.appendChild(renderer.domElement);
 
@@ -184,9 +189,14 @@ const GltfViewer = ({ modelPath }) => {
 
     // Handle Window Resizing
     const handleResize = () => {
-      camera.aspect = 600 / 400;
+      const isMobile = window.innerWidth < 700;
+      const width = Math.min(window.innerWidth * 0.98, 600);
+      const height = width * 2 / 3;
+      camera.aspect = width / height;
+      camera.fov = isMobile ? 85 : 75;
+      camera.position.z = isMobile ? 3.2 : defaultCameraPos.z;
       camera.updateProjectionMatrix();
-      renderer.setSize(600, 400);
+      renderer.setSize(width, height);
     };
     window.addEventListener('resize', handleResize);
     // Cleanup
@@ -208,15 +218,24 @@ const GltfViewer = ({ modelPath }) => {
     handleReset();
   }, [modelPath]);
 
+  // Only show icons if window is narrow
+  const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 480 : false);
+  useEffect(() => {
+    const handleResizeNarrow = () => setIsNarrow(window.innerWidth < 480);
+    window.addEventListener('resize', handleResizeNarrow);
+    return () => window.removeEventListener('resize', handleResizeNarrow);
+  }, []);
+
   return (
     <div style={{ width: '100%', maxWidth: 650, margin: '2rem auto', position: 'relative' }}>
       <div
         ref={mountRef}
         style={{
           width: '100%',
-          maxWidth: 600,
-          height: 'auto',
+          maxWidth: '100vw',
           aspectRatio: '3/2',
+          height: 'auto',
+          minHeight: 120,
           border: '2px solid #333',
           borderRadius: '12px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -226,7 +245,6 @@ const GltfViewer = ({ modelPath }) => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          minHeight: 200,
         }}
       >
         <ARButton modelPath={modelPath} />
@@ -267,8 +285,8 @@ const GltfViewer = ({ modelPath }) => {
             bottom: 0,
             display: 'flex',
             justifyContent: 'center',
-            gap: '1rem',
-            padding: '1rem 0',
+            gap: isNarrow ? 6 : '1rem',
+            padding: isNarrow ? '0.5rem 0' : '1rem 0',
             background: 'rgba(255,255,255,0.7)',
             borderTop: '1px solid #eee',
             zIndex: 1,
@@ -280,12 +298,19 @@ const GltfViewer = ({ modelPath }) => {
             onMouseLeave={stopRotate}
             onTouchStart={() => startRotate(1)}
             onTouchEnd={stopRotate}
-          >⟲ Rotate Left</button>
+            style={{ minWidth: 40, minHeight: 40, fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            aria-label="Rotate Left"
+          >
+            <span role="img" aria-label="Rotate Left">⟲</span>
+            {!isNarrow && <span style={{ marginLeft: 6 }}>Rotate Left</span>}
+          </button>
           <button
             onClick={handleReset}
-            style={{ visibility: isChanged ? 'visible' : 'hidden' }}
+            style={{ visibility: isChanged ? 'visible' : 'hidden', minWidth: 40, minHeight: 40, fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            aria-label="Reset View"
           >
-            Reset View
+            <span role="img" aria-label="Reset">🔄</span>
+            {!isNarrow && <span style={{ marginLeft: 6 }}>Reset View</span>}
           </button>
           <button
             onMouseDown={() => startRotate(-1)}
@@ -293,7 +318,12 @@ const GltfViewer = ({ modelPath }) => {
             onMouseLeave={stopRotate}
             onTouchStart={() => startRotate(-1)}
             onTouchEnd={stopRotate}
-          >Rotate Right ⟳</button>
+            style={{ minWidth: 40, minHeight: 40, fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            aria-label="Rotate Right"
+          >
+            <span role="img" aria-label="Rotate Right">⟳</span>
+            {!isNarrow && <span style={{ marginLeft: 6 }}>Rotate Right</span>}
+          </button>
         </div>
       </div>
     </div>
