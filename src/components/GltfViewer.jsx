@@ -67,13 +67,20 @@ const GltfViewer = ({ modelPath }) => {
 
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 700;
-    const width = Math.min(window.innerWidth * 0.98, 600);
-    const height = width * 2 / 3;
+    // Use the actual container width for responsive sizing
+    const getContainerWidth = () => {
+      if (mountRef.current) {
+        return Math.min(mountRef.current.offsetWidth, 600);
+      }
+      return Math.min(window.innerWidth * 0.98, 600);
+    };
+    let width = getContainerWidth();
+    let height = width * 2 / 3;
 
     // Scene, Camera, Renderer Setup
     const scene = new THREE.Scene();
     // Wider FOV for mobile
+    const isMobile = width < 700;
     const camera = new THREE.PerspectiveCamera(isMobile ? 85 : 75, width / height, 0.1, 1000);
     camera.position.set(defaultCameraPos.x, defaultCameraPos.y, isMobile ? 3.2 : defaultCameraPos.z);
     camera.lookAt(0, 0, 0);
@@ -81,6 +88,8 @@ const GltfViewer = ({ modelPath }) => {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
     renderer.setClearColor(0xffffff, 1); // Set background to white
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = 'auto';
     mountRef.current.appendChild(renderer.domElement);
 
     // Add OrbitControls
@@ -189,14 +198,16 @@ const GltfViewer = ({ modelPath }) => {
 
     // Handle Window Resizing
     const handleResize = () => {
-      const isMobile = window.innerWidth < 700;
-      const width = Math.min(window.innerWidth * 0.98, 600);
+      const width = getContainerWidth();
       const height = width * 2 / 3;
+      const isMobile = width < 700;
       camera.aspect = width / height;
       camera.fov = isMobile ? 85 : 75;
       camera.position.z = isMobile ? 3.2 : defaultCameraPos.z;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
+      renderer.domElement.style.width = '100%';
+      renderer.domElement.style.height = 'auto';
     };
     window.addEventListener('resize', handleResize);
     // Cleanup
@@ -227,12 +238,12 @@ const GltfViewer = ({ modelPath }) => {
   }, []);
 
   return (
-    <div style={{ width: '100%', maxWidth: 650, margin: '2rem auto', position: 'relative' }}>
+    <div className="viewer-container">
       <div
         ref={mountRef}
         style={{
           width: '100%',
-          maxWidth: '100vw',
+          maxWidth: '100%',
           aspectRatio: '3/2',
           height: 'auto',
           minHeight: 120,
