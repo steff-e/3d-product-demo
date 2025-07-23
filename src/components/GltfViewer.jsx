@@ -155,8 +155,13 @@ const GltfViewer = ({ modelPath }) => {
         controls.target.set(0, 0, 0);
         controls.update();
         setIsChanged(false); // Reset state on new model
-        // Attach OrbitControls change event
+        // Attach OrbitControls change event, but ignore the first event after load
+        let firstChange = true;
         const handleControlsChange = () => {
+          if (firstChange) {
+            firstChange = false;
+            return;
+          }
           // Check if camera or controls' target or model rotation is not default
           const cam = camera;
           const tgt = controls.target;
