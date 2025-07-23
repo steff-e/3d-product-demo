@@ -313,7 +313,7 @@ const GltfViewer = ({ modelPath }) => {
             aria-label="Rotate Left"
           >
             <span role="img" aria-label="Rotate Left">⟲</span>
-            {!isNarrow && <span style={{ marginLeft: 6 }}>Rotate Left</span>}
+            {!isNarrow && <span style={{ marginLeft: 6, userSelect: 'none' }}>Rotate Left</span>}
           </button>
           <button
             onClick={handleReset}
@@ -321,7 +321,7 @@ const GltfViewer = ({ modelPath }) => {
             aria-label="Reset View"
           >
             <span role="img" aria-label="Reset">🔄</span>
-            {!isNarrow && <span style={{ marginLeft: 6 }}>Reset View</span>}
+            {!isNarrow && <span style={{ marginLeft: 6, userSelect: 'none' }}>Reset View</span>}
           </button>
           <button
             onMouseDown={() => startRotate(-1)}
@@ -333,7 +333,7 @@ const GltfViewer = ({ modelPath }) => {
             aria-label="Rotate Right"
           >
             <span role="img" aria-label="Rotate Right">⟳</span>
-            {!isNarrow && <span style={{ marginLeft: 6 }}>Rotate Right</span>}
+            {!isNarrow && <span style={{ marginLeft: 6, userSelect: 'none' }}>Rotate Right</span>}
           </button>
         </div>
       </div>
