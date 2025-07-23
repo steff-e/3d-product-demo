@@ -312,7 +312,7 @@ const GltfViewer = ({ modelPath }) => {
             style={{ minWidth: 40, minHeight: 40, fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             aria-label="Rotate Left"
           >
-            <span role="img" aria-label="Rotate Left">⟲</span>
+            <span role="img" aria-label="Rotate Left" style={{ userSelect: 'none' }}>⟲</span>
             {!isNarrow && <span style={{ marginLeft: 6, userSelect: 'none' }}>Rotate Left</span>}
           </button>
           <button
@@ -320,7 +320,7 @@ const GltfViewer = ({ modelPath }) => {
             style={{ visibility: isChanged ? 'visible' : 'hidden', minWidth: 40, minHeight: 40, fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             aria-label="Reset View"
           >
-            <span role="img" aria-label="Reset">🔄</span>
+            <span role="img" aria-label="Reset" style={{ userSelect: 'none' }}>🔄</span>
             {!isNarrow && <span style={{ marginLeft: 6, userSelect: 'none' }}>Reset View</span>}
           </button>
           <button
@@ -332,7 +332,7 @@ const GltfViewer = ({ modelPath }) => {
             style={{ minWidth: 40, minHeight: 40, fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             aria-label="Rotate Right"
           >
-            <span role="img" aria-label="Rotate Right">⟳</span>
+            <span role="img" aria-label="Rotate Right" style={{ userSelect: 'none' }}>⟳</span>
             {!isNarrow && <span style={{ marginLeft: 6, userSelect: 'none' }}>Rotate Right</span>}
           </button>
         </div>
