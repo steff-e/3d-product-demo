@@ -66,3 +66,37 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.footer {
+  background-color: #ffffff;
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  letter-spacing: -0.39px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px 30px 10px;
+  font: 700 13px/1 Heebo, sans-serif;
+  position:fixed;bottom:0;left:0;right:0;height:auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.footer-logo {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 37px;
+  align-self: start;
+  padding-right: 50px;
+  color: #0077B5;
+}
+
+.copyright {
+  align-self: end;
+  margin: -4px -1px 0 0;
+  color: #1a1a1a;
+}
