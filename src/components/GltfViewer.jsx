@@ -85,7 +85,10 @@ const GltfViewer = ({ modelPath }) => {
     cameraRef.current = camera;
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
-    renderer.setClearColor(0xffffff, 1); // Set background to white
+    // Detect dark mode
+    const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Set scene background color
+    renderer.setClearColor(isDark ? 0x23272b : 0xffffff, 1);
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = 'auto';
     mountRef.current.appendChild(renderer.domElement);
@@ -119,14 +122,16 @@ const GltfViewer = ({ modelPath }) => {
     frontLight.position.set(0, 0.5, 3); // In front of the model, slightly above
     scene.add(frontLight);
 
-    // Add Grid Helper
-    const gridHelper = new THREE.GridHelper(10, 20, 0x888888, 0xcccccc);
+    // Add Grid Helper (dark mode: dark grid, light lines)
+    const gridColor = isDark ? 0x44474a : 0x888888;
+    const lineColor = isDark ? 0xbbbbbb : 0xcccccc;
+    const gridHelper = new THREE.GridHelper(10, 20, gridColor, lineColor);
     gridHelper.position.y = -0.01;
     scene.add(gridHelper);
 
-    // Add Ground Plane
+    // Add Ground Plane (dark mode: darkish grey)
     const planeGeometry = new THREE.PlaneGeometry(10, 10);
-    const planeMaterial = new THREE.MeshStandardMaterial({ color: 0xf8f8f8, roughness: 1, metalness: 0 });
+    const planeMaterial = new THREE.MeshStandardMaterial({ color: isDark ? 0x23272b : 0xf8f8f8, roughness: 1, metalness: 0 });
     const plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.rotation.x = -Math.PI / 2;
     plane.position.y = -0.02;
@@ -252,7 +257,7 @@ const GltfViewer = ({ modelPath }) => {
           border: '2px solid #333',
           borderRadius: '12px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-          background: '#fff',
+          background: isDark ? '#23272b' : '#fff',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
@@ -268,7 +273,7 @@ const GltfViewer = ({ modelPath }) => {
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'rgba(255,255,255,0.7)',
+          background: isDark ? 'rgba(40,40,40,0.7)' : 'rgba(255,255,255,0.7)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -300,8 +305,8 @@ const GltfViewer = ({ modelPath }) => {
             justifyContent: 'center',
             gap: isNarrow ? 6 : '1rem',
             padding: isNarrow ? '0.5rem 0' : '1rem 0',
-            background: 'rgba(255,255,255,0.7)',
-            borderTop: '1px solid #eee',
+            background: isDark ? 'rgba(40,40,40,0.85)' : 'rgba(255,255,255,0.7)',
+            borderTop: isDark ? '1px solid #333' : '1px solid #eee',
             zIndex: 1,
           }}
         >
@@ -385,12 +390,13 @@ function ARButton({ modelPath }) {
   );
 }
 
+const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 const arButtonStyle = {
   position: 'absolute',
   top: 16,
   right: 16,
   zIndex: 10,
-  background: 'rgba(255,255,255,0.95)',
+  background: isDark ? 'rgba(40,40,40,0.95)' : 'rgba(255,255,255,0.95)',
   border: '1px solid #ddd',
   borderRadius: 8,
   padding: '0.4rem 0.7rem',
@@ -399,7 +405,7 @@ const arButtonStyle = {
   gap: 6,
   boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
   textDecoration: 'none',
-  color: '#222',
+  color: isDark ? '#fff' : '#222',
   fontWeight: 500,
   fontSize: 15,
   transition: 'box-shadow 0.2s',
