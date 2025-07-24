@@ -66,6 +66,15 @@ const GltfViewer = ({ modelPath }) => {
   };
 
 
+  // Track dark mode and update on color scheme change
+  const [isDark, setIsDark] = useState(() => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => setIsDark(e.matches);
+    mql.addEventListener('change', handleChange);
+    return () => mql.removeEventListener('change', handleChange);
+  }, []);
+
   useEffect(() => {
     // Use the actual container width for responsive sizing
     const getContainerWidth = () => {
@@ -85,9 +94,6 @@ const GltfViewer = ({ modelPath }) => {
     cameraRef.current = camera;
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
-    // Detect dark mode
-    const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // Set scene background color
     renderer.setClearColor(isDark ? 0x23272b : 0xffffff, 1);
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = 'auto';
@@ -229,7 +235,7 @@ const GltfViewer = ({ modelPath }) => {
       renderer.dispose();
       window.removeEventListener('resize', handleResize);
     };
-  }, [modelPath]); // Re-run effect if modelPath changes
+  }, [modelPath, isDark]); // Re-run effect if modelPath or dark mode changes
 
   // Reset view when modelPath changes
   useEffect(() => {
@@ -265,7 +271,7 @@ const GltfViewer = ({ modelPath }) => {
           position: 'relative',
         }}
       >
-        <ARButton modelPath={modelPath} />
+        <ARButton modelPath={modelPath} isDark={isDark} />
         {loading && (
           <div style={{
             position: 'absolute',
