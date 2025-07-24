@@ -1,3 +1,15 @@
+.main-header, header, .header {
+  background: #fff;
+  z-index: 10;
+}
+
+@media (prefers-color-scheme: dark) {
+  .main-header, header, .header {
+    background: #23272b;
+  }
+}
+
+
 @media (prefers-color-scheme: dark) {
   .product-cards-container {
     background: #181a1b !important;
