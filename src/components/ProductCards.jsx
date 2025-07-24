@@ -12,16 +12,7 @@ const ProductCards = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '2rem',
-        justifyContent: 'center',
-        width: '100%',
-        marginTop: '2.5rem',
-      }}
-    >
+    <div className="product-cards-container">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
@@ -30,4 +21,3 @@ const ProductCards = () => {
 };
 
 export default ProductCards;
-

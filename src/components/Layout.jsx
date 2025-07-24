@@ -15,13 +15,6 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener('resize', adjustMainPadding);
   }, []);
 
-  useEffect(() => {
-    const prevBg = document.body.style.background;
-    document.body.style.background = '#f3f3f3';
-    return () => {
-      document.body.style.background = prevBg;
-    };
-  }, []);
 
   const handleHeaderClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -29,7 +22,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <div style={{ minHeight: '100vh', background: '#f3f3f3' }}>
+      <div style={{ minHeight: '100vh' }}>
         <header
           style={{
             position: 'fixed',
@@ -38,7 +31,6 @@ const Layout = ({ children }) => {
             right: 0,
             zIndex: 100,
             width: '100%',
-            background: '#fff',
             boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             padding: '1.2rem 2vw',
             display: 'flex',
